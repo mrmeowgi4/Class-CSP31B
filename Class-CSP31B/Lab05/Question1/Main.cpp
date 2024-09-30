@@ -2,30 +2,51 @@
 #include <string>
 using namespace std;
 
+#define p(FMT, ...) \
+    do { \
+        printf(FMT "\n", __VA_ARGS__); \
+    } while(0);							  // A Much better print function that
+										  // allows for easy formatting, and autonewlines.
 
-// Given string s = "ABCDEF", we let a = 'A', and 
-// sum = 0.
-// 
-// therefore:
-//
-// "ABCDEF"
-//  ^-------- We found 'A', so: sum = sum + 1
-// sum=1
-//
-// "BCDEF"
-//  ^--------- This isn't 'A' so: sum = sum + 0
-// sum=1
-// 
-// "CDEF"
-//  ^--------- Neither is this, sum = sum+0
-// sum=1
-// 
-// ... and so on and so on... We continue splitting the string into substrings till the final substring is fully empty.
-// 
-// ""
-// ^-------- This is nothing, return 0 in a if condition - leaving our sum equaling to 1. We will then return this value back
-// and we will have that, throughout the entire recursive call, sum=1 with a='A' and s="ABCDEF"
-//
+
+void reverseDisplay(int value)
+{
+
+	if (value == 0)
+	{
+		//printf("DEBUG!!! REMOVE THIS!!!!");
+		return;
+	}
+
+
+	int m = value % 10;
+	printf("%d", m);
+
+	reverseDisplay(value/10);
+}
+
+int sumDigits(int n)
+{
+	int sum = 0;
+	if (n == 0)
+	{
+		return 0;
+	}
+	
+	int m = n % 10;
+
+	// Explanation:
+	// *------------------------------- |
+	// f(123) = m   + f(n/10)----|   |  |
+	// f(12) = m   + f(n/10)<----|   |  |
+	// f(1) = m   + f(n/10)<-----|   |  |
+	// f(0) = equals zero.<------|------|
+	sum = m + sumDigits(n / 10); 
+									
+
+	return sum;
+}
+
 int count(const string& s, char a)
 {
 	int sum;
@@ -52,7 +73,14 @@ int count(const string& s, char a)
 int main()
 {
 	int val = 1234;
-	
-	
+	p("Sample value: %d", val);
+	p("Sample value but with all digits adding up to a single sum = %d", sumDigits(val));
+	p("Sample value in reverse:  ");
+	reverseDisplay(val);
+	p("\n");
+
+
+	p("Here is the string AABBAAAMMC But with how many A's there in this entire string: %d", count("AABBAAAMMC", 'A'));
+
 	return 0;
 }
