@@ -12,7 +12,8 @@
 
 
 ##LAB 05##
-add_executable (Class-CSP31B "Lab05/Question1/Main.cpp") # QUESTION 2
+#add_executable (Class-CSP31B "Lab05/Question1/Main.cpp") # QUESTION 1
+add_executable (Class-CSP31B "Lab05/Question2/Main.cpp" "Lab05/Question2/Account.h" "Lab05/Question2/MyDate.h" "Lab05/Question2/Checking.h" "Lab05/Question2/Saving.h") # QUESTION 2
 ## END OF LAB 05 ##
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
