@@ -27,7 +27,6 @@ int convertHexToDec(char ch)
 {
     auto hi = ch;
 
-    // simple math trick i memorized:
     return  (hi >= '0' && hi <= '9') * (hi - '0') +
             (hi >= 'A' && hi <= 'F') * (hi - 'A' + 10) +
             (hi >= 'a' && hi <= 'f') * (hi - 'a' + 10);
