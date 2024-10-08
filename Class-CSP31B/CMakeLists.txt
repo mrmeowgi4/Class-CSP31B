@@ -13,8 +13,13 @@
 
 ##LAB 05##
 #add_executable (Class-CSP31B "Lab05/Question1/Main.cpp") # QUESTION 1
-add_executable (Class-CSP31B "Lab05/Question2/Main.cpp" "Lab05/Question2/Account.h" "Lab05/Question2/MyDate.h" "Lab05/Question2/Checking.h" "Lab05/Question2/Saving.h") # QUESTION 2
+#add_executable (Class-CSP31B "Lab05/Question2/Main.cpp" "Lab05/Question2/Account.h" "Lab05/Question2/MyDate.h" "Lab05/Question2/Checking.h" "Lab05/Question2/Saving.h") # QUESTION 2
 ## END OF LAB 05 ##
+
+
+## LAB 06
+add_executable (Class-CSP31B "Lab06/Question1/Main.cpp")
+## END OF LAB 06
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET Class-CSP31B PROPERTY CXX_STANDARD 20)
