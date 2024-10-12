@@ -25,7 +25,8 @@
 
 
 ## LAB 07
-add_executable (Class-CSP31B "Lab07/Question1/Main.cpp")
+#add_executable (Class-CSP31B "Lab07/Question1/Main.cpp")
+add_executable (Class-CSP31B "Lab07/Question2/Main.cpp")
 ## END OF LAB 07
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
