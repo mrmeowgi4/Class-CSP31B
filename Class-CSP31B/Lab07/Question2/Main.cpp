@@ -6,7 +6,7 @@ template<typename T>
 int partition(T a[], int L, int H)
 {
     T p = a[H - 1];
-    int i = L;
+    int i = L-1;
 
     for (int j = L; j < H - 1; j++)
     {
@@ -37,7 +37,8 @@ void quickSort(T l[], int s)
     }
 }
 
-void printArray(int a[], int s)
+template<typename T>
+void printArray(T a[], int s)
 {
     for (int i = 0; i < s; i++)
         cout << a[i] << ",";
@@ -46,10 +47,16 @@ void printArray(int a[], int s)
 
 int main()
 {
-    int testingArr[3] = { 0, 12, -1 };
-    quickSort(testingArr, 3);
-    printArray(testingArr, 3);
-    cout << endl;
+    int intArray[10] = { 34, 7, 23, 5, 62, 11, 1, 99, 32, 40 }; 
+    double doubleArray[10] = { 34.5, 7.1, 23.3, 5.5, 62.2, 32.8, 99.6, 1.9, 11.4, 54.7 }; 
 
+    quickSort(intArray, 10);
+    quickSort(doubleArray, 10);
+
+    cout << "array of int:";
+    printArray(intArray, 10);
+
+    cout << "array of double: ";
+    printArray(doubleArray, 10);
     return 0;
 }
