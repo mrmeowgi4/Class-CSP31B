@@ -26,8 +26,12 @@
 
 ## LAB 07
 #add_executable (Class-CSP31B "Lab07/Question1/Main.cpp")
-add_executable (Class-CSP31B "Lab07/Question2/Main.cpp")
+#add_executable (Class-CSP31B "Lab07/Question2/Main.cpp")
 ## END OF LAB 07
+
+## LAB 08
+add_executable (Class-CSP31B "Lab08/Question1/Main.cpp" "Lab08/Question1/LinkedList.h" "Lab08/Question1/LinkedList.cpp")
+## END OF LAB 08
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET Class-CSP31B PROPERTY CXX_STANDARD 20)
