@@ -1,4 +1,3 @@
-// Search for "WRITE YOUR CODE" to complete this program
 #include <iostream>
 #include <vector>
 #include <string>

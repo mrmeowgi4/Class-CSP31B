@@ -42,7 +42,7 @@
 ## END OF LAB 10
 
 ## LAB 11
-add_executable (Class-CSP31B "Lab11/Question1/Main.cpp")
+add_executable (Class-CSP31B "Lab11/Question2/Main.cpp")
 ## END OF LAB 11
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
