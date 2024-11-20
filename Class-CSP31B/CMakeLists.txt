@@ -47,7 +47,7 @@
 
 
 ## LAB 12
-add_executable (Class-CSP31B "Lab12/Question1/Main.cpp")
+add_executable (Class-CSP31B "Lab12/Question2/Main.cpp")
 ## END OF LAB 12
 
 # MISC
