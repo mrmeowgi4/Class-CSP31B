@@ -55,8 +55,11 @@
 # END OF MISC
 
 ## LAB 13
-#add_executable (Class-CSP31B "Lab13/Question1/Main.cpp" "Lab13/Question1/MyMap.h" "Lab13/Question1/MyMap.cpp")
-add_executable (Class-CSP31B "Lab13/Question2/Main.cpp")
+#add_executable (Class-CSP31B "Lab13/Question1/Main.cpp" "Lab13/Question1/MyMap.h" "Lab13/Question1/MyMap.cpp "Lab14/Question1/AVLTree.h"")
+#add_executable (Class-CSP31B "Lab13/Question2/Main.cpp")
+
+## LAB 14
+add_executable (Class-CSP31B "Lab14/Question1/Main.cpp" "Lab14/Question1/BST.h", "Lab14/Question1/AVLTree.h")
 
 ## END OF LAB 13
 
