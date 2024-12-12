@@ -1,285 +1,256 @@
-// This is LinkedList.h file
-#ifndef LINKEDLIST_H
-#define LINKEDLIST_H
-#include <stdexcept>
 #include <iostream>
+#include <string>
+#include <algorithm>
 using namespace std;
-class Node {
+#ifndef BST_H
+#define BST_H
+template < typename T >
+class TreeNode
+{
 public:
-	int element;
-	// Element contained in the node
-	Node* next;
-	// Pointer to the next node
-	// No-arg constructor
-	Node() {
-		next = nullptr;
+	T element; // Element contained in the node
+	TreeNode < T >* left; // Pointer to the left child
+	TreeNode < T >* right; // Pointer to the right child
+	TreeNode() // No-arg constructor
+	{
+		left = NULL;
+		next = NULL;
 	}
-	// Constructor
-	Node(const int& e) {
-		this->element = e;
-		next = nullptr;
+	TreeNode(T element) // Constructor
+	{
+		this->element = element;
+		left = NULL;
+		right = NULL;
 	}
 };
-class LinkedList {
+template < typename T >
+class BST
+{
+public:
+	BST();
+	BST(T elements[], int arraySize);
+	bool insert(T element);
+	void inorder();
+	void preorder();
+	void postorder();
+	int getSize();
+	bool search(T element);
+	void breadthFirstTraversal();
+	int height();
+	int getNumberOfNonLeaves();
 private:
-	Node* head;
-	Node* tail;
+	TreeNode < T >* root;
 	int size;
-public:
-	LinkedList(); // No-arg constructor
-	LinkedList(const LinkedList& list); // Copy constructor
-	virtual ~LinkedList(); // Destructor
-	void add(const int& e);
-	void add(int index, const int& e);
-	void addLast(const int& e);
-	void addFirst(const int& e);
-	int& getFirst() const;
-	int& getLast() const;
-	int removeFirst();
-	int removeLast();
-	void clear();
-	bool isEmpty() const;
-	int getSize() const;
-	int& get(int index) const;
-	void addOrder(const int& e); // ADDED, to be implemented
-	void remove(const int& e); // WAS there before
-	// to be implemented
-	// The print was done in a static method print() in the
-	// main() method. Now print() is an instance method.
-	void print() const; // ADDED, implemented.
+	void inorder(TreeNode < T >* root);
+	void postorder(TreeNode < T >* root);
+	void preorder(TreeNode < T >* root);
+	bool search(T element, TreeNode < T >* root);
+	int height(TreeNode<T>* root);
+	int getNumberOfNonLeaves(TreeNode<T>* root);
 };
-//-- No argument constructor
-LinkedList::LinkedList()
+template < typename T >
+BST < T >::BST()
 {
-	head = tail = nullptr; // Initialize head and tail
+	root = NULL;
 	size = 0;
 }
-//-- Copy Constructor
-LinkedList::LinkedList(const LinkedList& list)
+template < typename T >
+BST < T >::BST(T elements[], int arraySize)
 {
-	head = tail = nullptr;
+	root = NULL;
 	size = 0;
-	Node* current = list.head;
-	while (current != nullptr)
+	for (int i = 0; i < arraySize; i++)
 	{
-		this->add(current->element);
-		current = current->next;
+		insert(elements[i]);
 	}
 }
-//-- Destructor
-LinkedList::~LinkedList()
+/* Insert element into the binary tree * Return true if the element is inserted
+successfully
+* Return false if the element is already in the list */
+template < typename T >
+bool BST < T >::insert(T element)
 {
-	clear();
-}
-//-- Add elements e to beginning of list
-void LinkedList::addFirst(const int& e)
-{
-	Node* newNode = new Node(e);
-	newNode->next = head;
-	head = newNode;
-	size++;
-	if (tail == nullptr)
-		tail = head;
-}
-//-- Add elements e to end of list
-void LinkedList::addLast(const int& e)
-{
-	if (tail == nullptr) {
-		head = tail = new Node(e);
-	}
-	else
+
+	if (root == nullptr)
 	{
-		tail->next = new Node(e);
-		tail = tail->next;
+		root = new TreeNode(element);
+		return true;
 	}
-	size++;
+
+	TreeNode<T>* curNode = root;
+
+	while (curNode != nullptr) {
+		
+		if (curNode->element == element)
+		{
+			// Duplicates are not allowed in a binary search tree.
+			return false;
+		}
+		
+		if (curNode->element > element)
+		{
+			if (curNode->left == nullptr)
+			{
+				curNode->left = new TreeNode<T>(element);
+				size++;
+				return true;
+			}
+
+			curNode = curNode->left;
+		}
+		else
+		{
+			if (curNode->element < element)
+			{
+				if (curNode->right == nullptr)
+				{
+					curNode->right = new TreeNode<T>(element);
+					size++;
+					return true;
+				}
+
+				curNode = curNode->right;
+			}
+		}
+	}
+
+	return false; // Yes professor i know this isnt necessary but i wanted to make sure you know this is where the method ends
 }
-//-- return element at the beginning of list
-int& LinkedList::getFirst() const
+
+
+/* Inorder traversal */
+template < typename T >
+void BST < T >::inorder()
 {
-	if (size == 0)
-		throw runtime_error("Index out of range");
-	else
-		return head->element;
+	inorder(root);
 }
-//-- return element at end of list
-int& LinkedList::getLast() const
+/* Inorder traversal from a subtree */
+template < typename T >
+void BST < T >::inorder(TreeNode < T >* root)
 {
-	if (size == 0)
-		throw runtime_error("Index out of range");
-	else
-		return tail->element;
+	if (root == NULL) return;
+	inorder(root->left);
+	cout << root->element << " ";
+	inorder(root->right);
 }
-//-- remove element at the beginning of the list
-int LinkedList::removeFirst()
+/* Postorder traversal */
+template < typename T >
+void BST < T >::postorder()
 {
-	if (size == 0)
-		throw runtime_error("No elements in the list");
-	else
+	postorder(root);
+}
+/** Inorder traversal from a subtree */
+template < typename T >
+void BST < T >::postorder(TreeNode < T >* root)
+{
+	if (root == NULL) return;
+	postorder(root->left);
+	postorder(root->right);
+	cout << root->element << " ";
+}
+/* Preorder traversal */
+template < typename T >
+void BST < T >::preorder()
+{
+	preorder(root);
+}
+/* Preorder traversal from a subtree */
+template < typename T >
+void BST < T >::preorder(TreeNode < T >* root)
+{
+	if (root == NULL) return;
+	cout << root->element << " ";
+	preorder(root->left);
+	preorder(root->right);
+}
+template<typename T>
+inline bool BST<T>::search(T element, TreeNode<T>* root)
+{
+	TreeNode<T>* currentNode = root;
+
+	while (currentNode != nullptr)
 	{
-		Node* temp = head;
-		head = head->next;
-		if (head == nullptr) tail = nullptr;
-		size--;
-		int element = temp->element;
-		delete temp;
-		return element;
+		if (currentNode->element > element)
+		{
+			currentNode = currentNode->left;
+		}
+		else if (currentNode->element < element)
+		{
+			currentNode = currentNode->right;
+		}
+		else if (currentNode->element == element) {
+			return true;
+		}
 	}
+
+	return false;
+
 }
-//-- remove element at the end of the list
-int LinkedList::removeLast()
-{
-	if (size == 0 || size == 1)
-		return removeFirst();
-	else
-	{
-		Node* current = head;
-		for (int i = 0; i < size - 2; i++)
-			current = current->next;
-		Node* temp = tail;
-		tail = current;
-		tail->next = nullptr;
-		size--;
-		int element = temp->element;
-		delete temp;
-		return element;
-	}
-}
-//- check if the linked list is emtpy.
-bool LinkedList::isEmpty() const
-{
-	return head == nullptr;
-}
-//- return how many elements in the linked list
-int LinkedList::getSize() const
+/* Get the number of nodes in the tree */
+template < typename T >
+int BST < T >::getSize()
 {
 	return size;
 }
-//- return element at position specified by index.
-int& LinkedList::get(int index) const
+template<typename T>
+inline bool BST<T>::search(T element)
 {
-	if (index < 0 || index > size - 1)
-		throw runtime_error("Index out of range");
-	Node* current = head;
-	for (int i = 0; i < index; i++)
-		current = current->next;
-	return current->element;
+	return search(element, root);
 }
-//- clear or destroy the linked list
-void LinkedList::clear()
+template < typename T >
+int BST < T >::height()
 {
-	while (head != nullptr)
-	{
-		Node* temp = head;
-		head = head->next;
-		delete temp;
-	}
-	tail = nullptr;
-	size = 0;
-}
-//-- Adding element e to the list, and it is now set
-//-- to be added to the end of the list
-void LinkedList::add(const int& e)
-{
-	addLast(e);
-}
-//-- Adding element e so it will end up in position
-//-- indicated by index after the insertion
-void LinkedList::add(int index, const int& e)
-{
-	if (index == 0)
-		addFirst(e);
-	else if (index >= size)
-		addLast(e);
-	else
-	{
-		Node* current = head;
-		for (int i = 1; i < index; i++)
-			current = current->next;
-		Node* temp = current->next;
-		current->next = new Node(e);
-		(current->next)->next = temp;
-		size++;
-	}
-}
-//-- instance method to print values in the linked list
-//-- Iteration used. Recursion can be used but is an overkill
-//-- and not efficient in terms of memory used.
-void LinkedList::print() const
-{
-	Node* current = head;
-	cout << "head";
-	while (current != nullptr) {
-		cout << "-->" << current->element;
-		current = current->next;
-	}
-	cout << "-->NULL";
-}
-//Add list such that nodes are in order
-// 3 different CASES possible:
-// if TREE IS empty
-// CASE 1
-// else set current pointer to head
-// Loop until find end AND find value > inserted value
-// update pointer current
-// End Loop
-// if current point to head Then
-// insert in first node (CASE 2)
-// else
-// insert any where else (CASE 3)
-// endIf
-// Increment size of list
-// endElse
-//-- add elements to list and list are in order after inserting
-void LinkedList::addOrder(const int& e)
-{
-	Node* currPtr = head;
-
-	if (head == nullptr)
-	{
-		Node* newNode = new Node(e);
-		head = newNode;
-		head->next = nullptr;
-	}
-	else if (head->element > e)
-	{
-		Node* newNode = new Node(e);
-		newNode->next = head;
-		head = newNode;
-	}
-	else {
-
-		while (currPtr->next != nullptr && currPtr->next->element < e)
-		{
-			currPtr = currPtr->next;
-		}
-
-		Node* newNode = new Node(e);
-		newNode->next = currPtr->next;
-		currPtr->next = newNode;
-	}
-	size++;
+	return height(root);
 }
 
-//-- To delete a node, there are 4 different CASES to be considered
-//
-//-- If list is EMPTY then
-//-- CASE 1 - No deletion done
-//-- else the list NOT empty
-//-- if node to delete is first node then it is CASE 2
-//- adjust head pointer
-//- else the node to delete is somewhere else, it is CASE 3
-//- adjust pointers.
-//- Your will need TWO pointers
-//- also, consider case the node to delete is the last node
-//- if so, adjust tail pointer.
-//- else it is CASE 4
-//- the value to be deleted has no just value in all nodes in the list
-//- endif
-//- endif
-//-- remove a specified element e from the linked list.
-void LinkedList::remove(const int& e)
+template<typename T>
+inline int BST<T>::getNumberOfNonLeaves()
 {
-	//TO BE IMPLEMENTED using the algorithm above
-}//end delete node
+	return getNumberOfNonLeaves(root);
+}
+
+template<typename T>
+int BST<T>::height(TreeNode<T>* root)
+{
+	if (root == nullptr)
+	{
+		return -1;
+	}
+
+	int L = height(root->left) + 1;
+	int H = height(root->right) + 1;
+
+	if (L >= H)
+	{
+		return L;
+	}
+	else if (H >= L)
+	{
+		return H;
+	}
+
+}
+template<typename T>
+inline int BST<T>::getNumberOfNonLeaves(TreeNode<T>* root)
+{
+	if (root == nullptr)
+	{
+		return 0;
+
+	}
+
+	if (root->left == nullptr && root->right == nullptr)
+	{
+		return 0;
+	}
+
+	int cL = getNumberOfNonLeaves(root->left);
+	int cR = getNumberOfNonLeaves(root->right);
+
+	int cT = 1 + cL + cR;
+
+	return cT;
+}
+//Implement the getNumberOfNonLeaves() method here
+// Two methods (overloaded) to be implemented.
 #endif

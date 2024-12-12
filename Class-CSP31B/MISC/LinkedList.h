@@ -86,6 +86,7 @@ public:
     int getSize() const;
     T removeAt(int index);
     T set(int index, T element);
+    void print();
 
     Iterator < T > begin()
     {
@@ -133,30 +134,39 @@ LinkedList<T>::~LinkedList()
 template<typename T>
 void LinkedList<T>::addFirst(T element)
 {
-    Node<T>* newNode = new Node<T>(element);
-    newNode->next = head;
-    head = newNode;
-    size++;
+    if (head == nullptr)
+    {
+        head = new Node(element);
+        head->next = nullptr;
+        return;
+    }
 
-    if (tail == NULL)
-        tail = head;
+    Node<T>* tempNode = head;
+    head = new Node(element);
+    head->next = tempNode;
+
+    size++;
 }
+
 
 template<typename T>
 void LinkedList<T>::addLast(T element)
 {
-    if (tail == NULL)
+    Node<T>* newNode = new Node(element); 
+
+    if (head == nullptr) 
     {
-        head = tail = new Node<T>(element);
+        head = tail = newNode;  
     }
-    else
+    else  
     {
-        tail->next = new Node<T>(element);
-        tail = tail->next;
+        tail->next = newNode;  
+        tail = newNode;
     }
 
-    size++;
+    size++; 
 }
+
 
 template<typename T>
 T LinkedList<T>::getFirst() const
@@ -225,18 +235,7 @@ void LinkedList<T>::add(T element)
 template<typename T>
 void LinkedList<T>::add(int index, T element)
 {
-    if (index == 0) addFirst(element);
-    else if (index >= size)
-        addLast(element);
-    else {
-        Node<T>* current = head;
-        for (int i = 1; i < index; i++)
-            current = current->next;
-        Node<T>* temp = current->next;
-        current->next = new Node<T>(element);
-        (current->next)->next = temp;
-        size++;
-    }
+
 }
 
 template<typename T>
@@ -364,6 +363,30 @@ T LinkedList<T>::set(int index, T element)
     c->element = element;
 
     return o;
+}
+
+template<typename T>
+inline void LinkedList<T>::print()
+{
+    Node<T>* current = head;
+
+    if (head == nullptr)
+    {
+        cout << "head->NULL";
+        return;
+    }
+
+    cout << "head->";
+
+    while (current != nullptr)
+    {
+        cout << current->element;
+        cout << "->";
+
+        current = current->next;
+    }
+
+    cout << "tail";
 }
 
 template<typename T>
